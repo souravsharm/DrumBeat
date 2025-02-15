@@ -15,17 +15,21 @@ for(let i =0 ;i < buttonList.length;i++ ){
     buttonList[i].addEventListener("click", handleClick)
 }
 
-function handleClick () {
+function handleClick (event) {
     
-    let sound = dict[this.textContent]
-    audioPlay(sound)
+    let soundToPlay = dict[this.textContent]
+    audioPlay(soundToPlay)
+    console.log(event.target.classList[0])
+    buttonAnimation(event.target.classList[0])
 
 }
 
 document.addEventListener("keypress", (e) => {
     pressedKey = e.key;
-    if(dict[pressedKey.toLowerCase()]){
-         audioPlay(dict[pressedKey.toLowerCase()])
+    let key = dict[pressedKey.toLowerCase()]
+    if(key){
+         audioPlay(key)
+         buttonAnimation(pressedKey)
     }else{
         console.log("Wrong button pressed. Valid buttons are: a,w,s,j,l and k")
 
@@ -34,8 +38,15 @@ document.addEventListener("keypress", (e) => {
 })
 
 
-function audioPlay(sound){
-    const audio = new Audio(sound)
+function audioPlay(key){
+    const audio = new Audio(key)
     audio.play()
 }
 
+function buttonAnimation(currentKey){
+    const activeButton = document.querySelector("." + currentKey)
+    activeButton.classList.add("pressed")
+    setTimeout(() => activeButton.classList.remove("pressed"), 1000)
+   console.log(activeButton)
+
+}
